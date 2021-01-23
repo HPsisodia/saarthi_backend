@@ -37,6 +37,10 @@ const createSendToken = (user, res) =>{
 exports.registration = async(req,res) => {
     try {
 
+        const findUser = await registrationModel.find({email: req.body.email});
+        if(findUser){
+          return res.status(404).render("alreadyExist");
+        }
         const newUser = await registrationModel.create(req.body)
 
         const token = signToken(newUser.email);
@@ -49,14 +53,7 @@ exports.registration = async(req,res) => {
         }else{
             return res
             .status(statusCode.bad)
-            .json(
-              returnErrorJsonResponse(
-                statusCode.bad,
-                "fail",
-                "Something went wrong, couldnt save user. Check internet connection",
-                error
-              )
-            );            
+            .render('404')            
         }
         
 
@@ -64,14 +61,7 @@ exports.registration = async(req,res) => {
     } catch (error) {
         return res
         .status(statusCode.bad)
-        .json(
-          returnErrorJsonResponse(
-            statusCode.bad,
-            "fail",
-            "Something went wrong, Please try again",
-            error
-          )
-        );        
+        .render('404')        
     }
 }
 
@@ -113,11 +103,14 @@ exports.protect = async (req,res,next) => {
 
     if(req.cookies.jwt){
       token = req.cookies.jwt;
+    }else{
+      token = "loggedout"
     }
 
     if(token === "loggedout"){
       return res.render("pleaselogin");
     }
+
     if(!token){
       return res
       .status(statusCode.unauthorized)
@@ -155,14 +148,7 @@ exports.protect = async (req,res,next) => {
   }catch{
     return res
     .status(statusCode.bad)
-    .json(
-      returnErrorJsonResponse(
-        statusCode.bad,
-        "fail",
-        "Something went wrong, Please try again",
-        error
-      )
-    );
+    .render('404')
   }
 }
 

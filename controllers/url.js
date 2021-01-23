@@ -27,14 +27,7 @@ exports.addURL = async (req,res) =>{
     } catch (error) {
         return res
         .status(statusCode.bad)
-        .json(
-          returnErrorJsonResponse(
-            statusCode.bad,
-            "fail",
-            "Something went wrong, Please try again. Check internet connection",
-            error
-          )
-        );        
+        .render('404')        
     }
     
 }

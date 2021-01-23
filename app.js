@@ -36,7 +36,12 @@ app.use("/", URLRoute);
 app.use("/", dashboardRoute);
 
 app.use((req, res, next) => {
-    res.status(404).render('404');
+
+  if(req.cookies.jwt && req.cookies.jwt !== "loggedout" ){
+    res.status(404).render('doNotServe');
+  }else{
+    res.status(404).render('doNotServeLogin');
+  }
   });
 
 const PORT = process.env.PORT || 3000;

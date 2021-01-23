@@ -56,7 +56,7 @@ button:hover {
 <script>
 	var myArray = []
 	
-    fetch('http://localhost:3000/show-url').then(function (response) {
+    fetch('/show-url').then(function (response) {
 	// The API call was successful!
 	return response.json();
     }).then(function (data) {
@@ -78,7 +78,7 @@ button:hover {
 			var row = `<tr>
                             <td>${x}</td>
 							<td>${data[i].URL}</td>
-							<td><a href="http://localhost:3000/content/${data[i].id}"> Click to see URL Content</a></td>
+							<td><a href="/content/${data[i].id}"> Click to see URL Content</a></td>
 					  </tr>`
 			table.innerHTML += row
 
