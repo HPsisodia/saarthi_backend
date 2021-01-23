@@ -38,14 +38,12 @@ button:hover {
 </head>
 
 <body>
-    <h3>Pending Medical to be Approved</h3>
+    <h3>List of URLs</h3>
 <table class="table table-striped">
     <tr  class="bg-info">
         <th>Serial No.</th>
-        <th>Employee Name</th>
-        <th>Email</th>
-        <th>Medical Certificate</th>
-        <th>Approve Medical Certificate</th>
+        <th>URL</th>
+        <th>URL Content</th>
     </tr>
 
     <tbody id="myTable">
@@ -58,7 +56,7 @@ button:hover {
 <script>
 	var myArray = []
 	
-    fetch('http://localhost:3000/show-employees-medical').then(function (response) {
+    fetch('http://localhost:3000/show-url').then(function (response) {
 	// The API call was successful!
 	return response.json();
     }).then(function (data) {
@@ -79,10 +77,8 @@ button:hover {
             var x = i+1;
 			var row = `<tr>
                             <td>${x}</td>
-							<td>${data[i].name}</td>
-							<td>${data[i].email}</td>
-							<td><a href="http://localhost:3000/seemedical/${data[i].id}"> Click to see Medical Certificate</a></td>
-                            <td><a href="http://localhost:3000/medicalapproved/${data[i].id}">Click to Approve Medical Certificate</a></td>
+							<td>${data[i].URL}</td>
+							<td><a href="http://localhost:3000/content/${data[i].id}"> Click to see URL Content</a></td>
 					  </tr>`
 			table.innerHTML += row
 

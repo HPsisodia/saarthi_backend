@@ -42,27 +42,44 @@ exports.addURL = async (req,res) =>{
 
 exports.showURL = async (req,res) => {
     try {
-        const URLs = await URLModel.find({});
+        const result = await URLModel.find({});
+        const showURL = [];
+        for(i=0; i< result.length; i++){
+            showURL[i] = {
+                id: result[i]._id,
+                URL: result[i].url,
+                URL_content: result[i].url_content
+            }
+        }
         return res
             .status(statusCode.success)
             .json(
                 returnJsonResponse(
                 statusCode.success,
                 "success",
-                "Available Clinics",
-                URLs
-              )
-            );        
+                "Employee on Leave",
+                showURL
+            )
+            );
     } catch (error) {
         return res
         .status(statusCode.bad)
-        .json(
-          returnErrorJsonResponse(
-            statusCode.bad,
-            "fail",
-            "Something went wrong, Couldnt fetch clinic",
-            error
-          )
-        );        
-    }        
+        .render('404')
+    }
+}
+
+exports.showContent = async (req,res) =>{
+    try {
+        const id = req.params.id
+        const result = await URLModel.findById(id);
+        request({uri: result.url}, async (error, response, body) =>{
+            if(error){
+                return res.render("pageNotFound");
+            }
+            return res.send(body);
+        })
+
+    } catch (error) {
+        res.status(statusCode.bad).render('404')
+    }
 }
