@@ -38,7 +38,7 @@ exports.registration = async(req,res) => {
     try {
 
         const findUser = await registrationModel.find({email: req.body.email});
-        if(findUser){
+        if(findUser.length !== 0){
           return res.status(404).render("alreadyExist");
         }
         const newUser = await registrationModel.create(req.body)
