@@ -41,6 +41,9 @@ exports.registration = async(req,res) => {
         if(findUser.length !== 0){
           return res.status(404).render("alreadyExist");
         }
+        if(req.body.password === req.body.confirmpassword){
+          return res.status(404).render("passwordmatch");
+        }
         const newUser = await registrationModel.create(req.body)
 
         const token = signToken(newUser.email);
