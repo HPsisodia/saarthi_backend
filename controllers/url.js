@@ -19,7 +19,11 @@ exports.addURL = async (req,res) =>{
                 url: req.body.url,
                 url_content: body
             });
-            return res.send(body);
+            return res.render('content',{
+                post:{
+                    content: body
+                }
+            });
         })
         
         
@@ -69,7 +73,11 @@ exports.showContent = async (req,res) =>{
             if(error){
                 return res.render("pageNotFound");
             }
-            return res.send(body);
+            return res.render('content',{
+                post:{
+                    content: body
+                }
+            });
         })
 
     } catch (error) {
